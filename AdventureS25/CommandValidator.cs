@@ -1,11 +1,11 @@
-﻿namespace AdventureS25;
+namespace AdventureS25;
 
 public static class CommandValidator
 {
     private static float MaxSpeed;
     
     public static List<string> Verbs = new List<string>
-        {"go", "eat", "take", "drop"};
+        {"go", "eat", "take", "drop", "use", "speak"};
     
     public static List<string> StandaloneVerbs = new List<string>
         {"exit", "inventory", "look", "tron", "troff"};
@@ -13,7 +13,7 @@ public static class CommandValidator
     public static List<string> Nouns = new List<string>
     {
         "bagel", "apple", "beer", "east", "west", "north", "south",
-        "up", "down", "sword"
+        "up", "down", "sword", "iphone", "clothes", "alleyway", "jon", "marijuana"
     };
     
     public static bool IsValid(Command command)
@@ -34,7 +34,7 @@ public static class CommandValidator
                 }
                 else
                 {
-                    Console.WriteLine("I don't know how to do that.");
+                    TextAnimator.AnimateText("I don't know how to do that.");
                 }
             }
             else if (IsNoun(command.Noun))
@@ -44,12 +44,12 @@ public static class CommandValidator
             }
             else
             {
-                Console.WriteLine("I don't know how to do that.");
+                TextAnimator.AnimateText("I don't know how to do that.");
             }
         }
         else
         {
-            Console.WriteLine("I don't know the word " + command.Verb + ".");
+            TextAnimator.AnimateText("I don't know the word " + command.Verb + ".");
         }
             
         return isValid;

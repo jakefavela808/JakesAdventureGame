@@ -1,4 +1,4 @@
-﻿namespace AdventureS25;
+namespace AdventureS25;
 
 public static class Items
 {
@@ -7,27 +7,22 @@ public static class Items
     
     public static void Initialize()
     {
-        Item sword = new Item("sword",
-            "long sword");
-        nameToItem.Add("sword", sword);
+        Item iPhone = new Item("iphone",
+            "a shiny new iPhone");
+        nameToItem.Add("iphone", iPhone);
         
-        Item donut = new Item("donut",
-            "long donut", false);
-        nameToItem.Add("donut", donut);
+        Item clothes = new Item("clothes",
+            "your favorite outfit");
+        nameToItem.Add("clothes", clothes);
         
-        Item beer = new Item("beer",
-            "beer's beer");
-        nameToItem.Add("beer", beer);
-        
-        Item apple = new Item("apple",
-            "a shiny rotten apple");
-        nameToItem.Add("apple", apple);
+        Item marijuana = new Item("marijuana",
+            "some high-quality marijuana");
+        nameToItem.Add("marijuana", marijuana);
         
         // tell the map to add the item at a specific location
-        Map.AddItem(sword.Name, "Entrance");
-        Map.AddItem(apple.Name, "Entrance");
-        Map.AddItem(donut.Name, "Storage");
-        Map.AddItem(beer.Name, "Throne Room");
+        Map.AddItem("iphone", "bedroom");
+        Map.AddItem("clothes", "bedroom");
+        Map.AddItem("marijuana", "alleyway");
     }
 
     public static Item GetItemByName(string itemName)

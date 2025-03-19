@@ -1,18 +1,19 @@
-﻿namespace AdventureS25;
+namespace AdventureS25;
 
 public static class CommandHandler
 {
     private static Dictionary<string, Action<Command>> commandMap =
         new Dictionary<string, Action<Command>>()
         {
-            {"eat", Eat},
             {"go", Move},
             {"tron", Tron},
             {"troff", Troff},
             {"take", Take},
             {"inventory", ShowInventory},
             {"look", Look},
-            {"drop", Drop}
+            {"drop", Drop},
+            {"use", Use},
+            {"speak", Speak}
         };
 
     public static void Handle(Command command)
@@ -24,7 +25,7 @@ public static class CommandHandler
         }
         else
         {
-            Console.WriteLine("I don't know how to do that.");
+            TextAnimator.AnimateText("I don't know how to do that.");
         }
     }
     
@@ -58,13 +59,18 @@ public static class CommandHandler
         Debugger.Tron();
     }
 
-    public static void Eat(Command command)
-    {
-        Console.WriteLine("Eating..." + command.Noun);
-    }
-
     public static void Move(Command command)
     {
         Player.Move(command);
+    }
+
+    private static void Use(Command command)
+    {
+        Player.Use(command);
+    }
+
+    private static void Speak(Command command)
+    {
+        Player.Speak(command);
     }
 }

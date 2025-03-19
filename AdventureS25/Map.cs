@@ -1,4 +1,4 @@
-﻿namespace AdventureS25;
+namespace AdventureS25;
 
 public static class Map
 {
@@ -8,24 +8,24 @@ public static class Map
     
     public static void Initialize()
     {
-        Location entrance = new Location("Entrance", 
-            "This is the entrance room. Everything starts here.");
-        nameToLocation.Add("Entrance", entrance);
+        Location bedroom = new Location("bedroom", 
+            "You wake up in your bed... You see your rejected Computer Science job offerings. ");
+        nameToLocation.Add("bedroom", bedroom);
         
-        Location storage = new Location("Storage", 
-            "You are in a small storage room. There are lots of things.");
-        nameToLocation.Add("Storage", storage);
+        Location outside = new Location("outside", 
+            "You are outside. You see an dark and ominous alley-way just up north.");
+        nameToLocation.Add("outside", outside);
         
-        Location throne = new Location("Throne Room", 
-            "There is a big ass throne here.");
-        nameToLocation.Add("Throne Room", throne);
+        Location alleyway = new Location("alleyway",
+            "You are in a dark, narrow alley. The walls are covered in graffiti and there's a strange smell in the air. You see Jon waiting for you at the end of the alley.");
+        nameToLocation.Add("alleyway", alleyway);
         
-        entrance.AddConnection("east", storage);
-        storage.AddConnection("west", entrance);
-        throne.AddConnection("south", entrance);
-        entrance.AddConnection("north", throne);
+        bedroom.AddConnection("north", outside);
+        outside.AddConnection("south", bedroom);
+        outside.AddConnection("north", alleyway);
+        alleyway.AddConnection("south", outside);
 
-        StartLocation = entrance;
+        StartLocation = bedroom;
     }
     
 

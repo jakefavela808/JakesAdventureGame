@@ -1,4 +1,4 @@
-﻿namespace AdventureS25;
+namespace AdventureS25;
 
 public class Location
 {
@@ -36,11 +36,21 @@ public class Location
 
     public string GetDescription()
     {
-        string fullDescription = name + "\n" + Description;
+        string fullDescription = Description;
 
         foreach (Item item in Items)
         {
             fullDescription += "\n" + item.GetLocationDescription();
+        }
+        
+        // Add available directions
+        if (Connections.Count > 0)
+        {
+            fullDescription += "\nPossible directions:";
+            foreach (string direction in Connections.Keys)
+            {
+                fullDescription += " " + direction;
+            }
         }
         
         return fullDescription;

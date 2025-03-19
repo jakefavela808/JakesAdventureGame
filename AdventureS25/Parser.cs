@@ -1,4 +1,4 @@
-﻿namespace AdventureS25;
+namespace AdventureS25;
 
 public static class Parser
 {
@@ -28,7 +28,7 @@ public static class Parser
         }
         else
         {
-            Console.WriteLine("I don't understand that.");
+            TextAnimator.AnimateText("I don't understand that.");
         }
         
         return command;

@@ -1,4 +1,4 @@
-﻿namespace AdventureS25;
+namespace AdventureS25;
 
 public class Item
 {
@@ -21,6 +21,14 @@ public class Item
     public string GetLocationDescription()
     {
         string article = SemanticTools.CreateArticle(Name);
-        return "There is " + article + " " + Name + " here.";
+        
+        if (SemanticTools.IsPlural(Name))
+        {
+            return "There are " + Name + " here.";
+        }
+        else
+        {
+            return "There is " + article + " " + Name + " here.";
+        }
     }
 }
