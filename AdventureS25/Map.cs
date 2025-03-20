@@ -9,7 +9,7 @@ public static class Map
     public static void Initialize()
     {
         Location bedroom = new Location("bedroom", 
-            "You wake up in your bed... You see your rejected Game Dev job offerings. ");
+            "You wake up in your bed... You see your rejected Game Dev job applications. ");
         nameToLocation.Add("bedroom", bedroom);
         
         Location outside = new Location("outside", 

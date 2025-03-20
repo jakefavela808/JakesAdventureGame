@@ -133,7 +133,7 @@ public static class Player
             HasWallet = true;
             CurrentLocation.RemoveItem(item);
             Inventory.Add(item);
-            TextAnimator.AnimateText("You take the wallet. It's empty, this makes you depressed.");
+            TextAnimator.AnimateText("You've recieved 1x " + command.Noun + ". It's empty, this makes you depressed.");
         }
         else if (!item.IsTakeable)
         {
@@ -143,7 +143,7 @@ public static class Player
         {
             Inventory.Add(item);
             CurrentLocation.RemoveItem(item);
-            TextAnimator.AnimateText("You received 1x " + command.Noun + ".");
+            TextAnimator.AnimateText("You've recieved 1x " + command.Noun + ".");
         }
     }
 
@@ -352,7 +352,7 @@ public static class Player
                 TextAnimator.AnimateText("Creepy Uncle Lester: Here's 5 grams of my finest OG Kush. Deliver it to the programmers at their house.");
                 TextAnimator.AnimateText("Creepy Uncle Lester: Don't mess this up, those programmers depend on it for their sanity.");
                 TextAnimator.AnimateText("Creepy Uncle Lester: They can't finish their game without their weed, and it all falls on you.");
-                TextAnimator.AnimateText("You received 5x OG Kush.");
+                TextAnimator.AnimateText("You've recieved 5x OG Kush.");
                 TextAnimator.AnimateText("You feel your phone vibrate in your pocket.");
 
                 
@@ -383,7 +383,7 @@ public static class Player
                 TextAnimator.AnimateText("Joe: So, you got the stuff? I've been waiting all day. Can't code without my OG Kush, you know?");
                 TextAnimator.AnimateText("You hand over one bag of OG Kush to Joe.");
                 TextAnimator.AnimateText("Joe: Thanks, man. Here's your payment.");
-                TextAnimator.AnimateText("You received $50.");
+                TextAnimator.AnimateText("You've recieved $50.");
                 Money += 50;
                 TextAnimator.AnimateText("Joe: You're doing important work, you know. without this stuff, we'd never ship our game on time.");
                 TextAnimator.AnimateText("Joe: The crunch is real man, and this helps us deal with the pressure.");
