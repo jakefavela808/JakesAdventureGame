@@ -17,15 +17,15 @@ public static class Map
         nameToLocation.Add("outside", outside);
         
         Location alleyway = new Location("alleyway",
-            "You are in a dark, narrow alley. The walls are covered in graffiti and there's a strange smell in the air. You see Jon waiting for you at the end of the alley.\nTip: You can talk to him by typing 'story jon'.");
+            "You are in a dark, narrow alley. The walls are covered in graffiti and there's a strange smell in the air. You see Jon waiting for you at the end of the alley.\n★★Tip★★: You can talk to him by typing 'story jon'.");
         nameToLocation.Add("alleyway", alleyway);
         
         Location park = new Location("park",
-            "You are at the park. It's quiet and peaceful here. You feel your phone vibrate in your pocket.\nTip: Check your phone when you feel it vibrate by typing 'use iphone'");
+            "You are at the park. It's quiet and peaceful here. You feel your phone vibrate in your pocket.\n★★Tip★★: Check your phone when you feel it vibrate by typing 'use iphone'");
         nameToLocation.Add("park", park);
         
         Location parkBench = new Location("park bench",
-            "You approach the bench where you see Creepy Uncle Lester sitting. He looks at you with a grin.\nTip: You can talk to him by typing 'story lester'.");
+            "You approach the bench where you see Creepy Uncle Lester sitting. He looks at you with a grin.\n★★Tip★★: You can talk to him by typing 'story lester'.");
         nameToLocation.Add("park bench", parkBench);
         
         Location neighborhood = new Location("neighborhood",
@@ -33,7 +33,7 @@ public static class Map
         nameToLocation.Add("neighborhood", neighborhood);
         
         Location joesHouse = new Location("joes house",
-            "You arrive at a modest house with a 'Fuck Off' sign on the door. The curtains are closed, and you can smell a faint weed odor coming from inside.\nTip: You can talk to Joe by typing 'story joe'.");
+            "You arrive at a modest house with a 'Fuck Off' sign on the door. The curtains are closed, and you can smell a faint weed odor coming from inside.\n★★Tip★★: You can talk to Joe by typing 'story joe'.");
         nameToLocation.Add("joes house", joesHouse);
         
         bedroom.AddConnection("north", outside);

@@ -286,6 +286,7 @@ public static class Player
             if (!HasUsedClothes)
             {
                 TextAnimator.AnimateText("You put on your clothes. You are now ready to go outside.");
+                TextAnimator.AnimateText("-1x Clothes.");
                 HasUsedClothes = true;
                 Inventory.Remove(item); // Remove the item from inventory after use
             }
@@ -298,14 +299,14 @@ public static class Player
         {
             if (HasWallet)
             {
-                TextAnimator.AnimateText($"You check your wallet. You have ${Money}.");
+                TextAnimator.AnimateText($"You have ${Money}.");
             }
             else
             {
                 TextAnimator.AnimateText("You don't have a wallet.");
             }
         }
-        else if (command.Noun == "og kush")
+        else if (command.Noun == "og-kush")
         {
             TextAnimator.AnimateText("I can't smoke this right now... maybe I'll try again later.");
         }
@@ -378,22 +379,23 @@ public static class Player
         {
             if (CurrentLocation.Name == "joes house" && !HasSoldToJoe && HasReceivedOGKush)
             {
-                TextAnimator.AnimateText("You knock on the door and a young and average-looking guy in a dark hoodie answers.");
+                TextAnimator.AnimateText("You knock on the door... a young and average-looking guy in a dark hoodie answers.");
                 TextAnimator.AnimateText("Joe: Hey, you must be the new delivery kid. Sick!");
                 TextAnimator.AnimateText("Joe: So, you got the stuff? I've been waiting all day. Can't code without my OG Kush, you know?");
                 TextAnimator.AnimateText("You hand over one bag of OG Kush to Joe.");
+                TextAnimator.AnimateText("-1x OG Kush.");
                 TextAnimator.AnimateText("Joe: Thanks, man. Here's your payment.");
                 TextAnimator.AnimateText("You've recieved $50.");
                 Money += 50;
                 TextAnimator.AnimateText("Joe: You're doing important work, you know. without this stuff, we'd never ship our game on time.");
                 TextAnimator.AnimateText("Joe: The crunch is real man, and this helps us deal with the pressure.");
                 TextAnimator.AnimateText("Joe: Anyway, thanks for the delivery. I better get back to coding now.");
-                TextAnimator.AnimateText("Tip: You can check your wallet by typing 'use wallet'.");
+                TextAnimator.AnimateText("★★Tip★★: You can check your wallet by typing 'use wallet'.");
                 // Remove one OG Kush from inventory
                 bool removed = false;
                 foreach (Item item in Inventory.ToList())
                 {
-                    if (item.Name == "og kush" && !removed)
+                    if (item.Name == "og-kush" && !removed)
                     {
                         Inventory.Remove(item);
                         removed = true;

@@ -12,7 +12,7 @@ public static class CommandValidator
     
     public static List<string> Nouns = new List<string>
     {
-        "north", "south", "east", "west", "iphone", "clothes", "jon", "lester", "og kush", "joe", "wallet"
+        "north", "south", "east", "west", "iphone", "clothes", "jon", "lester", "og-kush", "joe", "wallet"
     };
     
     public static bool IsValid(Command command)
