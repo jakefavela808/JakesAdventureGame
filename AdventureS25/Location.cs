@@ -21,7 +21,7 @@ public class Location
         Description = descriptionInput;
         // Capitalize the first letter of the location name and add a period
         string capitalizedName = char.ToUpper(nameInput[0]) + nameInput.Substring(1);
-        ShortDescription = "Location: " + capitalizedName + ".";
+        ShortDescription = "Location: " + capitalizedName;
         Connections = new Dictionary<string, Location>();
     }
 
@@ -76,8 +76,8 @@ public class Location
                 formattedDirections.Add(formattedDirection);
             }
             
-            // Join with commas and period at the end
-            fullDescription += " " + string.Join(", ", formattedDirections) + ".";
+            // Join with commas but no period at the end
+            fullDescription += " " + string.Join(", ", formattedDirections);
         }
         
         return fullDescription;

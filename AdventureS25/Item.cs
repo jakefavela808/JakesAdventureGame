@@ -24,11 +24,11 @@ public class Item
         
         if (SemanticTools.IsPlural(Name))
         {
-            return "There are " + Name + " here.";
+            return "There are " + Name + " here";
         }
         else
         {
-            return "There is " + article + " " + Name + " here.";
+            return "There is " + article + " " + Name + " here";
         }
     }
 }

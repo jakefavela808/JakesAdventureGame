@@ -29,7 +29,7 @@ public static class SemanticTools
         word = word.ToLower();
         
         // Common plural words in the game
-        string[] pluralWords = { "clothes", "pants", "glasses", "scissors", "jeans" };
+        string[] pluralWords = { "clothes"};
         
         // Check if the word is in the plural words list
         foreach (string pluralWord in pluralWords)

@@ -13,7 +13,7 @@ public static class Map
         nameToLocation.Add("bedroom", bedroom);
         
         Location outside = new Location("outside", 
-            "You are outside. You see a dark and ominous alley-way just up north, a park to the east, and a neighborhood to the south.");
+            "You are outside. You see a dark and ominous alley-way just up north, a park to the east, and a neighborhood to the west.");
         nameToLocation.Add("outside", outside);
         
         Location alleyway = new Location("alleyway",
@@ -21,7 +21,7 @@ public static class Map
         nameToLocation.Add("alleyway", alleyway);
         
         Location park = new Location("park",
-            "You are at the park. It's quiet and peaceful here. You feel your phone vibrate in your pocket.");
+            "You are at the park. It's quiet and peaceful here. You feel your phone vibrate in your pocket.\nTip: Check your phone when you feel it vibrate by typing 'use iphone'");
         nameToLocation.Add("park", park);
         
         Location parkBench = new Location("park bench",
@@ -29,12 +29,12 @@ public static class Map
         nameToLocation.Add("park bench", parkBench);
         
         Location neighborhood = new Location("neighborhood",
-            "You walk through a quiet suburban neighborhood. The houses are neatly arranged with well-maintained lawns. You can see a house to the south that looks like it might belong to programmers.");
+            "You walk through a quiet suburban neighborhood. The houses are neatly arranged and are very well-maintained. You can see a house to the south that looks like it might belong to Joe.");
         nameToLocation.Add("neighborhood", neighborhood);
         
-        Location firstHouse = new Location("first house",
-            "You arrive at a modest house with a 'Programmers Definitely Live Here' sign on the door. The curtains are drawn, and you can smell a faint odor coming from inside.\nTip: You can talk to Joe by typing 'story joe'.");
-        nameToLocation.Add("first house", firstHouse);
+        Location joesHouse = new Location("joes house",
+            "You arrive at a modest house with a 'Fuck Off' sign on the door. The curtains are closed, and you can smell a faint weed odor coming from inside.\nTip: You can talk to Joe by typing 'story joe'.");
+        nameToLocation.Add("joes house", joesHouse);
         
         bedroom.AddConnection("north", outside);
         outside.AddConnection("south", bedroom);
@@ -46,8 +46,8 @@ public static class Map
         park.AddConnection("north", parkBench);
         parkBench.AddConnection("south", park);
         neighborhood.AddConnection("east", outside);
-        neighborhood.AddConnection("south", firstHouse);
-        firstHouse.AddConnection("north", neighborhood);
+        neighborhood.AddConnection("south", joesHouse);
+        joesHouse.AddConnection("north", neighborhood);
 
         StartLocation = bedroom;
     }

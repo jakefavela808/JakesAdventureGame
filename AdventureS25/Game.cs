@@ -57,6 +57,7 @@ public static class Game
         // Display standalone verbs
         TextAnimator.AnimateText("- look: Look around your current location");
         TextAnimator.AnimateText("- inventory: Check what you're carrying");
+        TextAnimator.AnimateText("- help: Display all available commands");
         TextAnimator.AnimateText("- exit: Quit the game");
         
         TextAnimator.AnimateText("");
