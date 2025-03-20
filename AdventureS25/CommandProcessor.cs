@@ -1,4 +1,4 @@
-﻿namespace AdventureS25;
+namespace AdventureS25;
 
 public static class CommandProcessor
 {
@@ -6,6 +6,12 @@ public static class CommandProcessor
     {
         // get input
         string rawInput = GetInput();
+        
+        // Handle empty input (just Enter key)
+        if (string.IsNullOrWhiteSpace(rawInput))
+        {
+            return new Command { IsValid = true }; // Return a valid but empty command
+        }
         
         // make sure two words
         Command command = Parser.Parse(rawInput);

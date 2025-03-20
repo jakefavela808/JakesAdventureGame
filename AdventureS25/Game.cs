@@ -16,6 +16,12 @@ public static class Game
             
             if (command.IsValid)
             {
+                // Skip processing if it's an empty command (just Enter key)
+                if (command.Verb == null && command.Noun == null)
+                {
+                    continue;
+                }
+                
                 if (command.Verb == "exit")
                 {
                     TextAnimator.AnimateText("Game Over!");
@@ -56,6 +62,7 @@ public static class Game
         
         // Display standalone verbs
         TextAnimator.AnimateText("- look: Look around your current location");
+        TextAnimator.AnimateText("- skip: Click 'Enter' during dialogue to skip text");
         TextAnimator.AnimateText("- inventory: Check what you're carrying");
         TextAnimator.AnimateText("- help: Display all available commands");
         TextAnimator.AnimateText("- exit: Quit the game");
@@ -76,6 +83,7 @@ public static class Game
         
         // Display standalone verbs
         TextAnimator.AnimateText("- look: Look around your current location");
+        TextAnimator.AnimateText("- skip: Click 'Enter' during dialogue to skip text");
         TextAnimator.AnimateText("- inventory: Check what you're carrying");
         TextAnimator.AnimateText("- accept: Accept an offer when prompted");
         TextAnimator.AnimateText("- deny: Deny an offer when prompted");

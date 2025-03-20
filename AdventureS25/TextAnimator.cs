@@ -26,6 +26,19 @@ namespace AdventureS25
             
             for (int i = 0; i < text.Length; i++)
             {
+                // Check if Enter was pressed to skip animation
+                if (Console.KeyAvailable)
+                {
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
+                    {
+                        // Write the remaining text instantly
+                        Console.Write(text.Substring(i));
+                        Console.WriteLine();
+                        return;
+                    }
+                }
+                
                 char c = text[i];
                 Console.Write(c);
                 

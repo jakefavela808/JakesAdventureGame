@@ -25,28 +25,37 @@ public static class Player
         CurrentLocation = Map.StartLocation;
     }
 
+    private static string GetFormattedDirections()
+    {
+        List<string> formattedDirections = new List<string>();
+        foreach (var connection in CurrentLocation.Connections)
+        {
+            string direction = char.ToUpper(connection.Key[0]) + connection.Key.Substring(1);
+            string destination = string.Join(" ", connection.Value.Name.Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1)));
+            formattedDirections.Add($"{direction} ({destination})");
+        }
+        return string.Join(", ", formattedDirections);
+    }
+
     public static void Move(Command command)
     {
         if (command.Noun == null)
         {
-            TextAnimator.AnimateText("Where do you want to go?\nPossible directions: " + 
-                string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+            TextAnimator.AnimateText("Where do you want to go?\nPossible directions: " + GetFormattedDirections());
             return;
         }
         
         // Check if trying to go outside without using clothes
         if (command.Noun == "north" && CurrentLocation.Description.Contains("bed") && !HasUsedClothes)
         {
-            TextAnimator.AnimateText("You can't go outside without clothes on!\nPossible directions: " + 
-                string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+            TextAnimator.AnimateText("You can't go outside without clothes on!\nPossible directions: " + GetFormattedDirections());
             return;
         }
         
         // Check if trying to go outside without using phone
         if (command.Noun == "north" && CurrentLocation.Description.Contains("bed") && !HasUsedPhone)
         {
-            TextAnimator.AnimateText("You should check your phone first\nPossible directions: " + 
-                string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+            TextAnimator.AnimateText("You should check your phone first\nPossible directions: " + GetFormattedDirections());
             return;
         }
         
@@ -55,16 +64,14 @@ public static class Player
             // Check if the player is trying to go to the park before talking to Jon
             if (command.Noun == "east" && CurrentLocation.Name == "outside" && !HasTalkedToJon)
             {
-                TextAnimator.AnimateText("You should talk to Jon first. He's waiting for you in the alley to the north\nPossible directions: " + 
-                    string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+                TextAnimator.AnimateText("You should talk to Jon first. He's waiting for you in the alley to the north\nPossible directions: " + GetFormattedDirections());
                 return;
             }
             
             // Check if the player can go to the park bench
             if (command.Noun == "north" && CurrentLocation.Name == "park" && !Map.CanGoToParkBench())
             {
-                TextAnimator.AnimateText("You need to use your phone first to receive the call from Creepy Uncle Lester\nPossible directions: " + 
-                    string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+                TextAnimator.AnimateText("You need to use your phone first to receive the call from Creepy Uncle Lester\nPossible directions: " + GetFormattedDirections());
                 return;
             }
             
@@ -73,13 +80,11 @@ public static class Player
             {
                 if (!HasReceivedOGKush)
                 {
-                    TextAnimator.AnimateText("You don't know this neighborhood yet\nPossible directions: " + 
-                        string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+                    TextAnimator.AnimateText("You don't know this neighborhood yet\nPossible directions: " + GetFormattedDirections());
                 }
                 else
                 {
-                    TextAnimator.AnimateText("You should check your phone first to get directions to Joe's house\nPossible directions: " + 
-                        string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+                    TextAnimator.AnimateText("You should check your phone first to get directions to Joe's house\nPossible directions: " + GetFormattedDirections());
                 }
                 return;
             }
@@ -87,16 +92,14 @@ public static class Player
             // Check if the player has clothes on before going outside
             if (command.Noun == "north" && CurrentLocation.Name == "bedroom" && !HasUsedClothes)
             {
-                TextAnimator.AnimateText("You can't go outside without clothes on!\nPossible directions: " + 
-                    string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+                TextAnimator.AnimateText("You can't go outside without clothes on!\nPossible directions: " + GetFormattedDirections());
                 return;
             }
             
             // Check if the player has their wallet before leaving the bedroom
             if (command.Noun == "north" && CurrentLocation.Name == "bedroom" && !HasWallet)
             {
-                TextAnimator.AnimateText("You should take your wallet before leaving. You might need it later\nPossible directions: " + 
-                    string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+                TextAnimator.AnimateText("You should take your wallet before leaving. You might need it later\nPossible directions: " + GetFormattedDirections());
                 return;
             }
             
@@ -105,8 +108,7 @@ public static class Player
         }
         else
         {
-            TextAnimator.AnimateText("You can't go that way\nPossible directions: " + 
-                string.Join(", ", CurrentLocation.Connections.Keys.Select(d => char.ToUpper(d[0]) + d.Substring(1))));
+            TextAnimator.AnimateText("You can't go that way\nPossible directions: " + GetFormattedDirections());
         }
     }
 
@@ -285,14 +287,14 @@ public static class Player
         {
             if (!HasUsedClothes)
             {
-                TextAnimator.AnimateText("You put on your clothes. You are now ready to go outside.");
+                TextAnimator.AnimateText("You put on your clothes. You are now ready to go outside without being arrested for indecent exposure!");
                 TextAnimator.AnimateText("-1x Clothes.");
                 HasUsedClothes = true;
                 Inventory.Remove(item); // Remove the item from inventory after use
             }
             else
             {
-                TextAnimator.AnimateText("You are already wearing clothes.");
+                TextAnimator.AnimateText("You are already wearing clothes dumbass.");
             }
         }
         else if (command.Noun == "wallet")
@@ -303,7 +305,7 @@ public static class Player
             }
             else
             {
-                TextAnimator.AnimateText("You don't have a wallet.");
+                TextAnimator.AnimateText("You don't have a wallet, you're broke.");
             }
         }
         else if (command.Noun == "og-kush")
@@ -340,7 +342,7 @@ public static class Player
             }
             else
             {
-                TextAnimator.AnimateText("You've already spoken to Jon. He's busy on with Sandy now.");
+                TextAnimator.AnimateText("Hey fuck-head, you've already spoken to Jon. He's busy on with Sandie now. Fuck off.");
                 return;
             }
         }
@@ -368,7 +370,7 @@ public static class Player
             }
             else if (CurrentLocation.Name == "park bench" && HasReceivedOGKush)
             {
-                TextAnimator.AnimateText("Creepy Uncle Lester: What are you still doing here? Go deliver that stuff!");
+                TextAnimator.AnimateText("Creepy Uncle Lester: What are you still doing here? Fuck off and go deliver that stuff!");
             }
             else
             {
@@ -389,7 +391,7 @@ public static class Player
                 Money += 50;
                 TextAnimator.AnimateText("Joe: You're doing important work, you know. without this stuff, we'd never ship our game on time.");
                 TextAnimator.AnimateText("Joe: The crunch is real man, and this helps us deal with the pressure.");
-                TextAnimator.AnimateText("Joe: Anyway, thanks for the delivery. I better get back to coding now.");
+                TextAnimator.AnimateText("Joe: Anyway, thanks for the delivery. Now fuck off, I gotta get back to coding now.");
                 TextAnimator.AnimateText("★★Tip★★: You can check your wallet by typing 'use wallet'.");
                 // Remove one OG Kush from inventory
                 bool removed = false;
@@ -407,7 +409,7 @@ public static class Player
             else if (CurrentLocation.Name == "joes house" && HasSoldToJoe)
             {
                 TextAnimator.AnimateText("Joe is busy coding and doesn't want to be disturbed.");
-                TextAnimator.AnimateText("Joe: Thanks for the delivery, but I'm in the zone now. Come back another time.");
+                TextAnimator.AnimateText("Joe: Thanks for the delivery, but you're being creepy now. Fuck off and come back another time when I need a fix.");
             }
             else
             {

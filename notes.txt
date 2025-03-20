@@ -9,3 +9,7 @@ You look around and see a suspicious-looking man sitting on a bench nearby up no
 You hang up the phone.
 
 // not printing direction
+
+> 
+I don't understand that.
+I don't know the word .

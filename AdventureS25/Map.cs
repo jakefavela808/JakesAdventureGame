@@ -31,10 +31,18 @@ public static class Map
         Location neighborhood = new Location("neighborhood",
             "You walk through a quiet suburban neighborhood. The houses are neatly arranged and are very well-maintained. You can see a house to the south that looks like it might belong to Joe.");
         nameToLocation.Add("neighborhood", neighborhood);
+
+        Location neighborhoodPath = new Location("neighborhood path",
+            "You continue walking through the neighborhood. You see a trailer to the north that looks like it might belong to Ricky.");
+        nameToLocation.Add("neighborhood path", neighborhoodPath);
         
         Location joesHouse = new Location("joes house",
             "You arrive at a modest house with a 'Fuck Off' sign on the door. The curtains are closed, and you can smell a faint weed odor coming from inside.\n★★Tip★★: You can talk to Joe by typing 'story joe'.");
         nameToLocation.Add("joes house", joesHouse);
+
+        Location rickyHouse = new Location("ricky house",
+            "You arrive at a broken-down, rusty trailer on the side of the road. You can hear a man yelling coming from inside.\n★★Tip★★: You can talk to Joe by typing 'story joe'.");
+        nameToLocation.Add("ricky house", rickyHouse);
         
         bedroom.AddConnection("north", outside);
         outside.AddConnection("south", bedroom);
@@ -48,7 +56,11 @@ public static class Map
         neighborhood.AddConnection("east", outside);
         neighborhood.AddConnection("south", joesHouse);
         joesHouse.AddConnection("north", neighborhood);
-
+        neighborhood.AddConnection("west", neighborhoodPath);
+        neighborhoodPath.AddConnection("east", neighborhood);
+        neighborhoodPath.AddConnection("north", rickyHouse);
+        rickyHouse.AddConnection("south", neighborhoodPath);
+        
         StartLocation = bedroom;
     }
     

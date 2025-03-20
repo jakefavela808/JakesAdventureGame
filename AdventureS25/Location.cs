@@ -16,12 +16,13 @@ public class Location
     
     public Location(string nameInput, string descriptionInput)
     {
-        _name = nameInput;
-        Name = nameInput;
+        // Store the original name input for internal use
+        _name = nameInput.ToLower().Trim();
+        Name = _name;
         Description = descriptionInput;
-        // Capitalize the first letter of the location name and add a period
-        string capitalizedName = char.ToUpper(nameInput[0]) + nameInput.Substring(1);
-        ShortDescription = "Location: " + capitalizedName;
+        // Format the name for display by capitalizing each word
+        string displayName = string.Join(" ", _name.Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1)));
+        ShortDescription = "Location: " + displayName;
         Connections = new Dictionary<string, Location>();
     }
 
@@ -69,11 +70,12 @@ public class Location
             fullDescription += "\nPossible directions:";
             
             List<string> formattedDirections = new List<string>();
-            foreach (string direction in Connections.Keys)
+            foreach (var connection in Connections)
             {
-                // Capitalize the first letter
-                string formattedDirection = char.ToUpper(direction[0]) + direction.Substring(1);
-                formattedDirections.Add(formattedDirection);
+                // Format both direction and destination names
+                string direction = char.ToUpper(connection.Key[0]) + connection.Key.Substring(1);
+                string destination = string.Join(" ", connection.Value.Name.Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1)));
+                formattedDirections.Add($"{direction} ({destination})");
             }
             
             // Join with commas but no period at the end
