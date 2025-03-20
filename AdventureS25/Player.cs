@@ -143,7 +143,7 @@ public static class Player
         {
             Inventory.Add(item);
             CurrentLocation.RemoveItem(item);
-            TextAnimator.AnimateText("You take the " + command.Noun + ".");
+            TextAnimator.AnimateText("You received 1x " + command.Noun + ".");
         }
     }
 
@@ -305,6 +305,10 @@ public static class Player
                 TextAnimator.AnimateText("You don't have a wallet.");
             }
         }
+        else if (command.Noun == "og kush")
+        {
+            TextAnimator.AnimateText("I can't smoke this right now... maybe I'll try again later.");
+        }
         else
         {
             TextAnimator.AnimateText("You can't use that item.");
@@ -379,16 +383,12 @@ public static class Player
                 TextAnimator.AnimateText("Joe: So, you got the stuff? I've been waiting all day. Can't code without my OG Kush, you know?");
                 TextAnimator.AnimateText("You hand over one bag of OG Kush to Joe.");
                 TextAnimator.AnimateText("Joe: Thanks, man. Here's your payment.");
-                TextAnimator.AnimateText("Joe gives you $50.");
-                
+                TextAnimator.AnimateText("You received $50.");
                 Money += 50;
-                TextAnimator.AnimateText($"You put the money in your wallet. You now have ${Money}.");
-                TextAnimator.AnimateText("Tip: You can check your wallet by typing 'use wallet'.");
-                
                 TextAnimator.AnimateText("Joe: You're doing important work, you know. without this stuff, we'd never ship our game on time.");
                 TextAnimator.AnimateText("Joe: The crunch is real man, and this helps us deal with the pressure.");
                 TextAnimator.AnimateText("Joe: Anyway, thanks for the delivery. I better get back to coding now.");
-                
+                TextAnimator.AnimateText("Tip: You can check your wallet by typing 'use wallet'.");
                 // Remove one OG Kush from inventory
                 bool removed = false;
                 foreach (Item item in Inventory.ToList())
