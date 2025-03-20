@@ -5,15 +5,14 @@ public static class CommandValidator
     private static float MaxSpeed;
     
     public static List<string> Verbs = new List<string>
-        {"go", "eat", "take", "drop", "use", "speak"};
+        {"go", "eat", "take", "drop", "use", "story"};
     
     public static List<string> StandaloneVerbs = new List<string>
-        {"exit", "inventory", "look", "tron", "troff"};
+        {"exit", "inventory", "look", "tron", "troff", "accept", "deny", "help"};
     
     public static List<string> Nouns = new List<string>
     {
-        "bagel", "apple", "beer", "east", "west", "north", "south",
-        "up", "down", "sword", "iphone", "clothes", "alleyway", "jon", "marijuana"
+        "north", "south", "east", "west", "iphone", "clothes", "jon", "lester", "og kush", "joe", "wallet"
     };
     
     public static bool IsValid(Command command)

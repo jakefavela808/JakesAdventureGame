@@ -1,0 +1,11 @@
+// feel phone vibrate after first deal
+// get text message about nextr customer
+// create new locations
+// Jon: Sorry, but you don't have a choice. My buddy's name is 'Creepy Uncle Lester'. He'll meet you at the park east of here. 
+    //make more direct
+
+    Creepy Uncle Lester: Hey there, I heard you're looking for work. Meet me at the park. I'm already here waiting for you.
+You look around and see a suspicious-looking man sitting on a bench nearby up north.
+You hang up the phone.
+
+// not printing direction

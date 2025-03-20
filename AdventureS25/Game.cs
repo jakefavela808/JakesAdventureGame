@@ -52,7 +52,7 @@ public static class Game
         TextAnimator.AnimateText("- take [item]: Pick up an item");
         TextAnimator.AnimateText("- drop [item]: Drop an item from your inventory");
         TextAnimator.AnimateText("- use [item]: Use an item in your inventory");
-        TextAnimator.AnimateText("- speak [person]: Speak to someone");
+        TextAnimator.AnimateText("- story [person]: Talk to someone");
         
         // Display standalone verbs
         TextAnimator.AnimateText("- look: Look around your current location");
@@ -60,5 +60,25 @@ public static class Game
         TextAnimator.AnimateText("- exit: Quit the game");
         
         TextAnimator.AnimateText("");
+    }
+
+    public static void DisplayHelp()
+    {
+        TextAnimator.AnimateText("Available commands:");
+        
+        // Display verbs that need a noun
+        TextAnimator.AnimateText("- go [direction]: Move in a direction (north, south, east, west)");
+        TextAnimator.AnimateText("- take [item]: Pick up an item");
+        TextAnimator.AnimateText("- drop [item]: Drop an item from your inventory");
+        TextAnimator.AnimateText("- use [item]: Use an item in your inventory");
+        TextAnimator.AnimateText("- story [person]: Talk to someone");
+        
+        // Display standalone verbs
+        TextAnimator.AnimateText("- look: Look around your current location");
+        TextAnimator.AnimateText("- inventory: Check what you're carrying");
+        TextAnimator.AnimateText("- accept: Accept an offer when prompted");
+        TextAnimator.AnimateText("- deny: Deny an offer when prompted");
+        TextAnimator.AnimateText("- help: Display this help message");
+        TextAnimator.AnimateText("- exit: Quit the game");
     }
 }

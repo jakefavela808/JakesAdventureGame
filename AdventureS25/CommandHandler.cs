@@ -13,7 +13,10 @@ public static class CommandHandler
             {"look", Look},
             {"drop", Drop},
             {"use", Use},
-            {"speak", Speak}
+            {"story", Story},
+            {"accept", Accept},
+            {"deny", Deny},
+            {"help", Help}
         };
 
     public static void Handle(Command command)
@@ -69,8 +72,23 @@ public static class CommandHandler
         Player.Use(command);
     }
 
-    private static void Speak(Command command)
+    private static void Story(Command command)
     {
-        Player.Speak(command);
+        Player.Story(command);
+    }
+    
+    private static void Accept(Command command)
+    {
+        Player.Accept();
+    }
+    
+    private static void Deny(Command command)
+    {
+        Player.Deny();
+    }
+    
+    private static void Help(Command command)
+    {
+        Game.DisplayHelp();
     }
 }

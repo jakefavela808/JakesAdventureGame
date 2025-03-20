@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace AdventureS25;
 
 public static class Player
@@ -6,6 +9,14 @@ public static class Player
     public static List<Item> Inventory;
     public static bool HasUsedClothes = false;
     public static bool HasUsedPhone = false;
+    public static bool HasUsedPhoneAtPark = false;
+    private static bool HasTalkedToJon = false;
+    private static bool HasAcceptedOffer = false;
+    private static bool HasDeniedOffer = false;
+    public static bool HasReceivedOGKush = false;
+    public static bool HasSoldToJoe = false;
+    public static int Money = 0;
+    public static bool HasWallet = false;
 
     public static void Initialize()
     {
@@ -15,28 +26,69 @@ public static class Player
 
     public static void Move(Command command)
     {
-        // Check if trying to go outside without using clothes
-        if (command.Noun == "north" && CurrentLocation.Description.Contains("bed") && !HasUsedClothes)
+        if (command.Noun == null)
         {
-            TextAnimator.AnimateText("You can't go outside without putting on your clothes first!");
+            TextAnimator.AnimateText("Where do you want to go?");
             return;
         }
         
-        // Check if trying to go outside without answering the phone call
+        // Check if trying to go outside without using clothes
+        if (command.Noun == "north" && CurrentLocation.Description.Contains("bed") && !HasUsedClothes)
+        {
+            TextAnimator.AnimateText("You can't go outside without clothes on!");
+            return;
+        }
+        
+        // Check if trying to go outside without using phone
         if (command.Noun == "north" && CurrentLocation.Description.Contains("bed") && !HasUsedPhone)
         {
-            TextAnimator.AnimateText("You're receiving a call. Take the iphone and use it first!");
+            TextAnimator.AnimateText("You should check your phone first.");
             return;
         }
         
         if (CurrentLocation.CanMoveInDirection(command))
         {
+            // Check if the player is trying to go to the park before talking to Jon
+            if (command.Noun == "east" && CurrentLocation.Name == "outside" && !HasTalkedToJon)
+            {
+                TextAnimator.AnimateText("You should talk to Jon first. He's waiting for you in the alley to the north.");
+                return;
+            }
+            
+            // Check if the player can go to the park bench
+            if (command.Noun == "north" && CurrentLocation.Name == "park" && !Map.CanGoToParkBench())
+            {
+                TextAnimator.AnimateText("You need to use your phone first to receive the call from Creepy Uncle Lester.");
+                return;
+            }
+            
+            // Check if the player can go to the neighborhood
+            if (command.Noun == "west" && CurrentLocation.Name == "outside" && !HasReceivedOGKush)
+            {
+                TextAnimator.AnimateText("You don't know this neighborhood yet.");
+                return;
+            }
+            
+            // Check if the player has clothes on before going outside
+            if (command.Noun == "north" && CurrentLocation.Name == "bedroom" && !HasUsedClothes)
+            {
+                TextAnimator.AnimateText("You can't go outside without clothes on!");
+                return;
+            }
+            
+            // Check if the player has their wallet before leaving the bedroom
+            if (command.Noun == "north" && CurrentLocation.Name == "bedroom" && !HasWallet)
+            {
+                TextAnimator.AnimateText("You should take your wallet before leaving. You might need it later.");
+                return;
+            }
+            
             CurrentLocation = CurrentLocation.GetLocationInDirection(command);
             TextAnimator.AnimateText(CurrentLocation.GetDescription());
         }
         else
         {
-            TextAnimator.AnimateText("You can't move " + command.Noun + ".");
+            TextAnimator.AnimateText("You can't go that way.");
         }
     }
 
@@ -58,9 +110,16 @@ public static class Player
         {
             TextAnimator.AnimateText("There is no " + command.Noun + " here.");
         }
+        else if (command.Noun == "wallet")
+        {
+            HasWallet = true;
+            CurrentLocation.RemoveItem(item);
+            Inventory.Add(item);
+            TextAnimator.AnimateText("You take the wallet. It's empty, but you can use it to store money.");
+        }
         else if (!item.IsTakeable)
         {
-            TextAnimator.AnimateText("The " + command.Noun + " can't be taked.");
+            TextAnimator.AnimateText("The " + command.Noun + " can't be taken.");
         }
         else
         {
@@ -82,7 +141,14 @@ public static class Player
             foreach (Item item in Inventory)
             {
                 string article = SemanticTools.CreateArticle(item.Name);
-                TextAnimator.AnimateText(" " + article + " " + item.Name);
+                if (SemanticTools.IsPlural(item.Name))
+                {
+                    TextAnimator.AnimateText("- " + item.Name);
+                }
+                else
+                {
+                    TextAnimator.AnimateText("- " + article + " " + item.Name);
+                }
             }
         }
     }
@@ -93,91 +159,266 @@ public static class Player
     }
 
     public static void Drop(Command command)
-    {       
-        Item item = Items.GetItemByName(command.Noun);
+    {
+        if (command.Noun != null && command.Noun != "")
+        {
+            // Check if the player has the iPhone in their inventory before showing the message
+            bool hasIPhone = false;
+            foreach (Item item in Inventory)
+            {
+                if (item.Name == "iphone")
+                {
+                    hasIPhone = true;
+                    break;
+                }
+            }
+            
+            // Never allow dropping the iPhone
+            if (command.Noun == "iphone" && hasIPhone)
+            {
+                TextAnimator.AnimateText("You can't drop your iPhone. You need it to stay in contact with people.");
+                return;
+            }
+            
+            Item? itemToDrop = null;
+            foreach (Item item in Inventory)
+            {
+                if (item.Name == command.Noun)
+                {
+                    itemToDrop = item;
+                    break;
+                }
+            }
 
-        if (item == null)
-        {
-            string article = SemanticTools.CreateArticle(command.Noun);
-            TextAnimator.AnimateText("I don't know what " + article + " " + command.Noun + " is.");
-        }
-        else if (!Inventory.Contains(item))
-        {
-            TextAnimator.AnimateText("You're not carrying the " + command.Noun + ".");
+            if (itemToDrop != null)
+            {
+                // Check if the item has been used before allowing to drop it
+                if (command.Noun == "clothes" && !HasUsedClothes)
+                {
+                    TextAnimator.AnimateText("You can't drop that item until you've used it.");
+                    return;
+                }
+                
+                Inventory.Remove(itemToDrop);
+                CurrentLocation.AddItem(itemToDrop);
+                TextAnimator.AnimateText("You drop the " + itemToDrop.Name + ".");
+            }
+            else
+            {
+                TextAnimator.AnimateText("You don't have that item.");
+            }
         }
         else
         {
-            Inventory.Remove(item);
-            CurrentLocation.AddItem(item);
-            TextAnimator.AnimateText("You drop the " + command.Noun + ".");
+            TextAnimator.AnimateText("Drop what?");
         }
-
     }
 
     public static void Use(Command command)
     {
-        // Check if the item exists
-        Item item = Items.GetItemByName(command.Noun);
-
+        if (command.Noun == null || string.IsNullOrEmpty(command.Noun))
+        {
+            TextAnimator.AnimateText("What do you want to use?");
+            return;
+        }
+        
+        Item item = Inventory.FirstOrDefault(i => i.Name == command.Noun);
+        
         if (item == null)
         {
-            TextAnimator.AnimateText("I don't know what " + command.Noun + " is.");
+            TextAnimator.AnimateText("You don't have that item.");
             return;
         }
-
-        // Check if the player has the item in their inventory
-        if (!Inventory.Contains(item))
-        {
-            TextAnimator.AnimateText("You don't have the " + command.Noun + " to use.");
-            return;
-        }
-
-        // Handle specific items
+        
         if (command.Noun == "iphone")
         {
-            TextAnimator.AnimateText("Incoming call... Jon");
-            TextAnimator.AnimateText("You answer the call.");
-            TextAnimator.AnimateText("Jon: Hey, how's it going?");
-            TextAnimator.AnimateText("Jon: I heard you been sad lately. You can't get any job with your Computer Science degree. PUT ON YOUR CLOTHES AND MEET ME OUTSIDE NOW!");
-            TextAnimator.AnimateText("You hang up the phone.");
-            HasUsedPhone = true;
-        }
-        else if (command.Noun == "clothes")
-        {
-            TextAnimator.AnimateText("You put on your clothes. Now you're ready to go outside.");
-            HasUsedClothes = true;
-        }
-        else if (command.Noun == "marijuana")
-        {
-            TextAnimator.AnimateText("You use the marijuana and start to feel more relaxed.");
-            TextAnimator.AnimateText("Your worries about finding a job with your Computer Science degree begin to fade away.");
-            TextAnimator.AnimateText("Maybe things aren't so bad after all...");
-        }
-        else
-        {
-            TextAnimator.AnimateText("You use the " + command.Noun + " but don't find anything interesting.");
-        }
-    }
-
-    public static void Speak(Command command)
-    {
-        if (command.Noun == "jon")
-        {
-            // Check if Jon is in the alleyway
-            if (CurrentLocation.Description.Contains("alley"))
+            if (!HasUsedPhone)
             {
-                TextAnimator.AnimateText("Jon: Hey there! I'm glad you made it. I have a job opportunity for you. ");
-                TextAnimator.AnimateText("Jon: Here's the marijuana. Take it and it might make you feel better about being unemployed.");
-                
+                TextAnimator.AnimateText("Incoming call... Jon");
+                TextAnimator.AnimateText("You answer the call.");
+                TextAnimator.AnimateText("Jon: Hey, how's it going?");
+                TextAnimator.AnimateText("Jon: I heard you been sad lately. You can't get any job with your Game Dev degree LMAOOOOOO. Put your clothes on and meet me outside, I need to talk to you!");
+                TextAnimator.AnimateText("You hang up the phone.");
+                HasUsedPhone = true;
+            }
+            else if (CurrentLocation.Name == "park" && !HasUsedPhoneAtPark)
+            {
+                TextAnimator.AnimateText("Incoming call... Creepy Uncle Lester");
+                TextAnimator.AnimateText("You answer the call.");
+                TextAnimator.AnimateText("Creepy Uncle Lester: Hey there, I heard you're looking for work. Meet me at the park. I'm already here waiting for you.");
+                TextAnimator.AnimateText("You look around and see a suspicious-looking man sitting on a bench nearby up north.");
+                TextAnimator.AnimateText("You hang up the phone.");
+                HasUsedPhoneAtPark = true;
+            }
+            else if (HasReceivedOGKush)
+            {
+                TextAnimator.AnimateText("You check your phone and see a text message from Creepy Uncle Lester.");
+                TextAnimator.AnimateText("Message: 'The first programmer's name is Joe. He's a pretty average dude, so don't be nervous. Go west from outside, then south to reach his house.'");
+                TextAnimator.AnimateText("Message: 'Don't mess this up, kid. The future of the industry depends on it.'");
             }
             else
             {
-                TextAnimator.AnimateText("Jon isn't here. You need to find him first.");
+                TextAnimator.AnimateText("You check your phone but there are no new messages or calls.");
+            }
+        }
+        else if (command.Noun == "clothes")
+        {
+            if (!HasUsedClothes)
+            {
+                TextAnimator.AnimateText("You put on your clothes. You are now decent enough to go outside.");
+                HasUsedClothes = true;
+                Inventory.Remove(item); // Remove the item from inventory after use
+            }
+            else
+            {
+                TextAnimator.AnimateText("You are already wearing clothes.");
+            }
+        }
+        else if (command.Noun == "wallet")
+        {
+            if (HasWallet)
+            {
+                TextAnimator.AnimateText($"You check your wallet. You have ${Money}.");
+            }
+            else
+            {
+                TextAnimator.AnimateText("You don't have a wallet.");
             }
         }
         else
         {
-            TextAnimator.AnimateText("You can't speak to " + command.Noun + ".");
+            TextAnimator.AnimateText("You can't use that item.");
+        }
+    }
+
+    public static void Story(Command command)
+    {
+        if (command.Noun == "jon")
+        {
+            if (!HasTalkedToJon)
+            {
+                TextAnimator.AnimateText("Jon: Hey there! I'm glad you made it. I have a job opportunity for you.");
+                TextAnimator.AnimateText("Jon: I know a tech startup. It's actually a small game studio, they're looking for someone with your skills.");
+                TextAnimator.AnimateText("You feel a glimmer of hope for the first time in weeks. Finally, someone is giving you the opportunity to use your Game Dev degree.");
+                TextAnimator.AnimateText("You think of all the amazing games you could make with your skills.");
+                TextAnimator.AnimateText("Jon whispers: Actually, it's not what you think. The 'tech startup' is just a front. They need someone to deliver weed to their programmers. The pay is good though.");
+                TextAnimator.AnimateText("Jon whispers: I don't do that type of work, but I can help you get started with a buddy of mine.");
+                TextAnimator.AnimateText("Jon grins: So, what do you say? Your Game Dev degree might not be useful, but at least you'll be in the tech industry... sort of. hahahhaahah");
+                TextAnimator.AnimateText("Type 'accept' to accept Jon's offer or 'deny' to refuse.");
+                HasTalkedToJon = true;
+            }
+            else
+            {
+                TextAnimator.AnimateText("Jon: You already know what I'm offering. What's your decision?");
+                TextAnimator.AnimateText("Type 'accept' to accept Jon's offer or 'deny' to refuse.");
+            }
+        }
+        else if (command.Noun == "lester")
+        {
+            if (CurrentLocation.Name == "park bench" && !HasReceivedOGKush)
+            {
+                TextAnimator.AnimateText("Creepy Uncle Lester: So, you're the one Jon sent. Welcome to the business, kid.");
+                TextAnimator.AnimateText("Creepy Uncle Lester reaches into his jacket and pulls out a small package.");
+                TextAnimator.AnimateText("Creepy Uncle Lester: Here's 5 grams of my finest OG Kush. Deliver it to the programmers at their house.");
+                TextAnimator.AnimateText("Creepy Uncle Lester: Don't mess this up, those programmers need depend on it for their sanity.");
+                TextAnimator.AnimateText("Creepy Uncle Lester: They can't finish their game without their weed, and it all falls on you.");
+                TextAnimator.AnimateText("You received 5x OG Kush.");
+                TextAnimator.AnimateText("You feel your phone vibrate in your pocket.");
+                
+                // Add OG Kush to inventory
+                for (int i = 0; i < 5; i++)
+                {
+                    Item ogKush = Items.OGKush;
+                    Inventory.Add(ogKush);
+                }
+                
+                HasReceivedOGKush = true;
+            }
+            else if (CurrentLocation.Name == "park bench" && HasReceivedOGKush)
+            {
+                TextAnimator.AnimateText("Creepy Uncle Lester: What are you still doing here? Go deliver that stuff!");
+            }
+            else
+            {
+                TextAnimator.AnimateText("That person is not here.");
+            }
+        }
+        else if (command.Noun == "joe")
+        {
+            if (CurrentLocation.Name == "first house" && !HasSoldToJoe && HasReceivedOGKush)
+            {
+                TextAnimator.AnimateText("You knock on the door and a sleepy-looking guy in a hoodie answers.");
+                TextAnimator.AnimateText("Joe: Hey, you must be the new delivery person. Come on in.");
+                TextAnimator.AnimateText("You step inside and Joe closes the door behind you.");
+                TextAnimator.AnimateText("Joe: So, you got the stuff? I've been waiting all day. Can't code without my OG Kush, you know?");
+                TextAnimator.AnimateText("You hand over one bag of OG Kush to Joe.");
+                TextAnimator.AnimateText("Joe: Thanks, man. Here's your payment.");
+                TextAnimator.AnimateText("Joe hands you $50.");
+                
+                Money += 50;
+                TextAnimator.AnimateText($"You put the money in your wallet. You now have ${Money}.");
+                
+                TextAnimator.AnimateText("Joe: You're doing important work, you know. Without this stuff, we'd never ship our game on time.");
+                TextAnimator.AnimateText("Joe: The crunch is real, and this helps us cope with the pressure.");
+                TextAnimator.AnimateText("Joe: Anyway, thanks for the delivery. I better get back to coding now.");
+                
+                // Remove one OG Kush from inventory
+                bool removed = false;
+                foreach (Item item in Inventory.ToList())
+                {
+                    if (item.Name == "og kush" && !removed)
+                    {
+                        Inventory.Remove(item);
+                        removed = true;
+                    }
+                }
+                
+                HasSoldToJoe = true;
+            }
+            else if (CurrentLocation.Name == "first house" && HasSoldToJoe)
+            {
+                TextAnimator.AnimateText("Joe is busy coding and doesn't want to be disturbed.");
+                TextAnimator.AnimateText("Joe: Thanks for the delivery, but I'm in the zone now. Come back another time.");
+            }
+            else
+            {
+                TextAnimator.AnimateText("That person is not here.");
+            }
+        }
+        else
+        {
+            TextAnimator.AnimateText("You can't talk to that.");
+        }
+    }
+    
+    public static void Accept()
+    {
+        if (HasTalkedToJon)
+        {
+            TextAnimator.AnimateText("You accept Jon's offer.");
+            TextAnimator.AnimateText("Jon: Great! My buddy's name is 'Creepy Uncle Lester'. He'll meet you at the park east of here.");
+            TextAnimator.AnimateText("Jon tells you to use your phone to contact him when you get there.");
+            HasAcceptedOffer = true;
+        }
+        else
+        {
+            TextAnimator.AnimateText("There's nothing to accept right now.");
+        }
+    }
+    
+    public static void Deny()
+    {
+        if (HasTalkedToJon)
+        {
+            TextAnimator.AnimateText("You try to refuse Jon's offer.");
+            TextAnimator.AnimateText("Jon: Sorry, but you don't have a choice. My buddy's name is 'Creepy Uncle Lester'. He'll meet you at the park east of here.");
+            TextAnimator.AnimateText("Jon tells you to use your phone to contact him when you get there.");
+            HasDeniedOffer = true;
+            HasAcceptedOffer = true; // Force acceptance even after denial
+        }
+        else
+        {
+            TextAnimator.AnimateText("There's nothing to deny right now.");
         }
     }
 }
