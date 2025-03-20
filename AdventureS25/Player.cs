@@ -347,9 +347,8 @@ public static class Player
         {
             if (CurrentLocation.Name == "first house" && !HasSoldToJoe && HasReceivedOGKush)
             {
-                TextAnimator.AnimateText("You knock on the door and a sleepy-looking guy in a hoodie answers.");
-                TextAnimator.AnimateText("Joe: Hey, you must be the new delivery person. Come on in.");
-                TextAnimator.AnimateText("You step inside and Joe closes the door behind you.");
+                TextAnimator.AnimateText("You knock on the door and a young, average-looking guy in a dark hoodie answers.");
+                TextAnimator.AnimateText("Joe: Hey, you must be the new delivery kid. Sick!");
                 TextAnimator.AnimateText("Joe: So, you got the stuff? I've been waiting all day. Can't code without my OG Kush, you know?");
                 TextAnimator.AnimateText("You hand over one bag of OG Kush to Joe.");
                 TextAnimator.AnimateText("Joe: Thanks, man. Here's your payment.");
@@ -359,7 +358,7 @@ public static class Player
                 TextAnimator.AnimateText($"You put the money in your wallet. You now have ${Money}.");
                 
                 TextAnimator.AnimateText("Joe: You're doing important work, you know. Without this stuff, we'd never ship our game on time.");
-                TextAnimator.AnimateText("Joe: The crunch is real, and this helps us cope with the pressure.");
+                TextAnimator.AnimateText("Joe: The crunch is real, and this helps us deal with the pressure.");
                 TextAnimator.AnimateText("Joe: Anyway, thanks for the delivery. I better get back to coding now.");
                 
                 // Remove one OG Kush from inventory
@@ -396,7 +395,7 @@ public static class Player
         if (HasTalkedToJon)
         {
             TextAnimator.AnimateText("You accept Jon's offer.");
-            TextAnimator.AnimateText("Jon: Great! My buddy's name is 'Creepy Uncle Lester'. He'll meet you at the park east of here.");
+            TextAnimator.AnimateText("Jon: Great! My buddy's name is 'Creepy Uncle Lester'. He'll meet you at the park east of your house.");
             TextAnimator.AnimateText("Jon tells you to use your phone to contact him when you get there.");
             HasAcceptedOffer = true;
         }
@@ -411,7 +410,7 @@ public static class Player
         if (HasTalkedToJon)
         {
             TextAnimator.AnimateText("You try to refuse Jon's offer.");
-            TextAnimator.AnimateText("Jon: Sorry, but you don't have a choice. My buddy's name is 'Creepy Uncle Lester'. He'll meet you at the park east of here.");
+            TextAnimator.AnimateText("Jon: Sorry, but you don't have a choice. My buddy's name is 'Creepy Uncle Lester'. He'll meet you at the park east of your house.");
             TextAnimator.AnimateText("Jon tells you to use your phone to contact him when you get there.");
             HasDeniedOffer = true;
             HasAcceptedOffer = true; // Force acceptance even after denial
