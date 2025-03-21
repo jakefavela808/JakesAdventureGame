@@ -16,7 +16,8 @@ public static class CommandHandler
             {"story", Story},
             {"accept", Accept},
             {"deny", Deny},
-            {"help", Help}
+            {"help", Help},
+            {"debug", Debug}
         };
 
     public static void Handle(Command command)
@@ -90,5 +91,21 @@ public static class CommandHandler
     private static void Help(Command command)
     {
         Game.DisplayHelp();
+    }
+    
+    private static void Debug(Command command)
+    {
+        if (command.Noun == "ricky")
+        {
+            TextAnimator.AnimateText("Debug: Testing Ricky command");
+            Command storyCommand = new Command();
+            storyCommand.Verb = "story";
+            storyCommand.Noun = "ricky";
+            Story(storyCommand);
+        }
+        else
+        {
+            TextAnimator.AnimateText("Debug command: " + command.Noun);
+        }
     }
 }

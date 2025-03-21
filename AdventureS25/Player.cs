@@ -11,11 +11,14 @@ public static class Player
     public static bool HasUsedPhone = false;
     public static bool HasUsedPhoneAtPark = false;
     public static bool HasUsedPhoneAfterLester = false;
+    public static bool HasUsedPhoneAfterRicky = false;
     private static bool HasTalkedToJon = false;
     private static bool HasAcceptedOffer = false;
     private static bool HasDeniedOffer = false;
     public static bool HasReceivedOGKush = false;
     public static bool HasSoldToJoe = false;
+    public static bool HasReceivedRickyCall = false;
+    public static bool HasSoldToRicky = false;
     public static int Money = 0;
     public static bool HasWallet = false;
 
@@ -75,6 +78,20 @@ public static class Player
                 return;
             }
             
+            // Check if the player can go to the neighborhood path
+            if (command.Noun == "west" && CurrentLocation.Name == "neighborhood" && (!HasSoldToJoe || !HasUsedPhoneAfterRicky))
+            {
+                if (!HasSoldToJoe)
+                {
+                    TextAnimator.AnimateText("You need to complete your delivery to Joe first\nPossible directions: " + GetFormattedDirections());
+                }
+                else if (!HasUsedPhoneAfterRicky)
+                {
+                    TextAnimator.AnimateText("You need to check your phone first to get directions to Ricky's trailer\nPossible directions: " + GetFormattedDirections());
+                }
+                return;
+            }
+            
             // Check if the player can go to the neighborhood
             if (command.Noun == "west" && CurrentLocation.Name == "outside" && (!HasReceivedOGKush || !HasUsedPhoneAfterLester))
             {
@@ -82,9 +99,9 @@ public static class Player
                 {
                     TextAnimator.AnimateText("You don't know this neighborhood yet\nPossible directions: " + GetFormattedDirections());
                 }
-                else
+                else if (!HasUsedPhoneAfterLester)
                 {
-                    TextAnimator.AnimateText("You should check your phone first to get directions to Joe's house\nPossible directions: " + GetFormattedDirections());
+                    TextAnimator.AnimateText("You should check your phone first to get directions\nPossible directions: " + GetFormattedDirections());
                 }
                 return;
             }
@@ -265,18 +282,30 @@ public static class Player
             {
                 TextAnimator.AnimateText("Incoming call... Creepy Uncle Lester");
                 TextAnimator.AnimateText("You answer the call.");
-                TextAnimator.AnimateText("Creepy Uncle Lester: Hey there, I heard you're looking for work. Meet me at the park bench. I'm already here waiting for you.");
+                TextAnimator.AnimateText("Creepy Uncle Lester: Hey there! I heard you're looking for work. Meet me at the park bench. I'm already here waiting for you.");
                 TextAnimator.AnimateText("You look around and see a suspicious-looking man sitting on a bench nearby up north.");
                 TextAnimator.AnimateText("You hang up the phone.");
 
                 HasUsedPhoneAtPark = true;
             }
-            else if (HasReceivedOGKush && !HasUsedPhoneAfterLester)
+            else if (HasReceivedOGKush && !HasUsedPhoneAfterLester && !HasSoldToJoe)
             {
                 TextAnimator.AnimateText("You check your phone and see a text message from Creepy Uncle Lester.");
                 TextAnimator.AnimateText("Message: 'The first programmer's name is Joe. He's a pretty average dude, so don't be nervous. Go west from outside, then south to reach his house.'");
                 TextAnimator.AnimateText("Message: 'Don't mess this up fuck-head. The future of the industry depends on it.'");
                 HasUsedPhoneAfterLester = true;
+            }
+            else if (HasSoldToJoe && HasReceivedRickyCall && !HasUsedPhoneAfterRicky)
+            {
+                TextAnimator.AnimateText("You check your phone and see a text message from Creepy Uncle Lester.");
+                TextAnimator.AnimateText("Message: 'Good job with Joe. Maybe you're not such a nerd after all.'");
+                TextAnimator.AnimateText("Message: 'You have another programmer to help. It's my good friend Ricky, he brang his trailer over from Canada and parked it somewhere in the neighborhood'");
+                TextAnimator.AnimateText("Message: 'He's waiting for his delivery. Don't keep him waiting, he gets cranky without his fix.'");
+                HasUsedPhoneAfterRicky = true;
+            }
+            else if (HasReceivedRickyCall)
+            {
+                TextAnimator.AnimateText("You check your phone but there are no new messages or calls.");
             }
             else
             {
@@ -287,7 +316,7 @@ public static class Player
         {
             if (!HasUsedClothes)
             {
-                TextAnimator.AnimateText("You put on your clothes. You are now ready to go outside without being arrested for indecent exposure!");
+                TextAnimator.AnimateText("You put on your clothes. You're now ready to go outside without being arrested for indecent exposure!");
                 TextAnimator.AnimateText("-1x Clothes.");
                 HasUsedClothes = true;
                 Inventory.Remove(item); // Remove the item from inventory after use
@@ -386,13 +415,7 @@ public static class Player
                 TextAnimator.AnimateText("Joe: So, you got the stuff? I've been waiting all day. Can't code without my OG Kush, you know?");
                 TextAnimator.AnimateText("You hand over one bag of OG Kush to Joe.");
                 TextAnimator.AnimateText("-1x OG Kush.");
-                TextAnimator.AnimateText("Joe: Thanks, man. Here's your payment.");
-                TextAnimator.AnimateText("You've recieved $50.");
-                Money += 50;
-                TextAnimator.AnimateText("Joe: You're doing important work, you know. without this stuff, we'd never ship our game on time.");
-                TextAnimator.AnimateText("Joe: The crunch is real man, and this helps us deal with the pressure.");
-                TextAnimator.AnimateText("Joe: Anyway, thanks for the delivery. Now fuck off, I gotta get back to coding now.");
-                TextAnimator.AnimateText("★★Tip★★: You can check your wallet by typing 'use wallet'.");
+                
                 // Remove one OG Kush from inventory
                 bool removed = false;
                 foreach (Item item in Inventory.ToList())
@@ -404,12 +427,66 @@ public static class Player
                     }
                 }
                 
+                TextAnimator.AnimateText("Joe: Thanks, man. Here's your payment.");
+                TextAnimator.AnimateText("You've recieved $50.");
+                Money += 50;
+                TextAnimator.AnimateText("Joe: You're doing important work, you know. Without this stuff, we'd never ship our game on time.");
+                TextAnimator.AnimateText("Joe: The crunch is real man, and this helps us deal with the pressure.");
+                TextAnimator.AnimateText("Joe: Anyway, thanks for the delivery. Now fuck off, I gotta get back to coding.");
+                TextAnimator.AnimateText("*SLAMS DOOR*");
+                TextAnimator.AnimateText("★★Tip★★: You can check your wallet by typing 'use wallet'.");
                 HasSoldToJoe = true;
+                TextAnimator.AnimateText("You feel your phone vibrate in your pocket.");
+                HasReceivedRickyCall = true;
             }
             else if (CurrentLocation.Name == "joes house" && HasSoldToJoe)
             {
                 TextAnimator.AnimateText("Joe is busy coding and doesn't want to be disturbed.");
                 TextAnimator.AnimateText("Joe: Thanks for the delivery, but you're being creepy now. Fuck off and come back another time when I need a fix.");
+            }
+            else
+            {
+                TextAnimator.AnimateText("That person is not here.");
+            }
+        }
+        else if (command.Noun == "ricky")
+        {
+            if (CurrentLocation.Name == "rickys house" && HasSoldToJoe && !HasSoldToRicky)
+            {
+                TextAnimator.AnimateText("You knock on the trailer door... a scruffy, jittery man with greasy hair, a patchy mustache, and bloodshot eyes answers.");
+                TextAnimator.AnimateText("Ricky: FUCK! What took you so goddamn long? I been waitin' here like a dick in a hand, all fuckin' day. You better have the good shit, not that Swayze train shit.");
+                TextAnimator.AnimateText("You hand over one bag of OG Kush to Ricky.");
+                TextAnimator.AnimateText("-1x OG Kush.");
+                TextAnimator.AnimateText("*sniffs bag intensely*");
+                TextAnimator.AnimateText("Ricky: ... Yeah, that's the stuff. Smells like... freedom and uh... kitties, I guess. Here's your money, don't spend it all on, like, books or some shit.");
+                TextAnimator.AnimateText("You've received $50.");
+                Money += 50;
+                TextAnimator.AnimateText("Ricky: Sorry bout that, bud. I get a little, what's the word...fuckin' PISSED when I'm low on dope. Just moved here from Sunnyvale, a little trailer park in Canada");
+                TextAnimator.AnimateText("Ricky: I haven't been able to find any decent fucking dope anywheres... but I think, maybe...this is alright.");
+                TextAnimator.AnimateText("Ricky: Anyways, I gotta get back to, uh... work and shit. This coding's not gonna do itself, and it's harder than gettin my Grade 10. Later!");
+                
+                // Remove one OG Kush from inventory
+                bool removed = false;
+                foreach (Item item in Inventory.ToList())
+                {
+                    if (item.Name == "og-kush" && !removed)
+                    {
+                        Inventory.Remove(item);
+                        removed = true;
+                    }
+                }
+                
+                HasSoldToRicky = true;
+            }
+            else if (CurrentLocation.Name == "rickys house" && HasSoldToRicky)
+            {
+                TextAnimator.AnimateText("You knock on the trailer door again.");
+                TextAnimator.AnimateText("Ricky: What the fuck do you want now? I already got my shit. Fuck off!");
+                TextAnimator.AnimateText("The door slams in your face.");
+            }
+            else if (CurrentLocation.Name == "rickys house" && !HasSoldToJoe)
+            {
+                TextAnimator.AnimateText("You need to complete your delivery to Joe first.");
             }
             else
             {

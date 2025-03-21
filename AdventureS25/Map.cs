@@ -40,9 +40,9 @@ public static class Map
             "You arrive at a modest house with a 'Fuck Off' sign on the door. The curtains are closed, and you can smell a faint weed odor coming from inside.\n★★Tip★★: You can talk to Joe by typing 'story joe'.");
         nameToLocation.Add("joes house", joesHouse);
 
-        Location rickyHouse = new Location("ricky house",
-            "You arrive at a broken-down, rusty trailer on the side of the road. You can hear a man yelling coming from inside.\n★★Tip★★: You can talk to Joe by typing 'story joe'.");
-        nameToLocation.Add("ricky house", rickyHouse);
+        Location rickyHouse = new Location("rickys house",
+            "You arrive at a broken-down, rusty trailer on the side of the road. You can hear a man yelling coming from inside.\n★★Tip★★: You can talk to Ricky by typing 'story ricky'.");
+        nameToLocation.Add("rickys house", rickyHouse);
         
         bedroom.AddConnection("north", outside);
         outside.AddConnection("south", bedroom);
