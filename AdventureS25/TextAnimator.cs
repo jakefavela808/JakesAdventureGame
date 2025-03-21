@@ -5,7 +5,7 @@ namespace AdventureS25
 {
     public static class TextAnimator
     {
-        private static int delayBetweenChars = 30; // milliseconds
+        private static int delayBetweenChars = 35; // milliseconds
         private static int delayForPeriods = 500; // milliseconds
         private static int delayForCommas = 150; // milliseconds
         private static int delayForExclamation = 250; // milliseconds

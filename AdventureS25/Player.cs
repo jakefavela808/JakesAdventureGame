@@ -51,14 +51,14 @@ public static class Player
         // Check if trying to go outside without using clothes
         if (command.Noun == "north" && CurrentLocation.Description.Contains("bed") && !HasUsedClothes)
         {
-            TextAnimator.AnimateText("You can't go outside without clothes on!\nPossible directions: " + GetFormattedDirections());
+            TextAnimator.AnimateText("You walk outside without your clothes on... Your neighbors look at you in disgust as you go back inside.\nPossible directions: " + GetFormattedDirections());
             return;
         }
         
         // Check if trying to go outside without using phone
         if (command.Noun == "north" && CurrentLocation.Description.Contains("bed") && !HasUsedPhone)
         {
-            TextAnimator.AnimateText("You should check your phone first\nPossible directions: " + GetFormattedDirections());
+            TextAnimator.AnimateText("You should check your phone first.\nPossible directions: " + GetFormattedDirections());
             return;
         }
         
@@ -67,14 +67,14 @@ public static class Player
             // Check if the player is trying to go to the park before talking to Jon
             if (command.Noun == "east" && CurrentLocation.Name == "outside" && !HasTalkedToJon)
             {
-                TextAnimator.AnimateText("You should talk to Jon first. He's waiting for you in the alley to the north\nPossible directions: " + GetFormattedDirections());
+                TextAnimator.AnimateText("You should talk to Jon first. He's waiting for you in the alley up north.\nPossible directions: " + GetFormattedDirections());
                 return;
             }
             
             // Check if the player can go to the park bench
             if (command.Noun == "north" && CurrentLocation.Name == "park" && !Map.CanGoToParkBench())
             {
-                TextAnimator.AnimateText("You need to use your phone first to receive the call from Creepy Uncle Lester\nPossible directions: " + GetFormattedDirections());
+                TextAnimator.AnimateText("You need to use your phone first to receive the call from Creepy Uncle Lester.\nPossible directions: " + GetFormattedDirections());
                 return;
             }
             
@@ -83,11 +83,11 @@ public static class Player
             {
                 if (!HasSoldToJoe)
                 {
-                    TextAnimator.AnimateText("You need to complete your delivery to Joe first\nPossible directions: " + GetFormattedDirections());
+                    TextAnimator.AnimateText("You need to complete your delivery to Joe first.\nPossible directions: " + GetFormattedDirections());
                 }
                 else if (!HasUsedPhoneAfterRicky)
                 {
-                    TextAnimator.AnimateText("You need to check your phone first to get directions to Ricky's trailer\nPossible directions: " + GetFormattedDirections());
+                    TextAnimator.AnimateText("You need to check your phone first to get directions to Ricky's trailer.\nPossible directions: " + GetFormattedDirections());
                 }
                 return;
             }
@@ -97,11 +97,11 @@ public static class Player
             {
                 if (!HasReceivedOGKush)
                 {
-                    TextAnimator.AnimateText("You don't know this neighborhood yet\nPossible directions: " + GetFormattedDirections());
+                    TextAnimator.AnimateText("You don't know this neighborhood yet.\nPossible directions: " + GetFormattedDirections());
                 }
                 else if (!HasUsedPhoneAfterLester)
                 {
-                    TextAnimator.AnimateText("You should check your phone first to get directions\nPossible directions: " + GetFormattedDirections());
+                    TextAnimator.AnimateText("You should check your phone first to get directions.\nPossible directions: " + GetFormattedDirections());
                 }
                 return;
             }
@@ -109,14 +109,14 @@ public static class Player
             // Check if the player has clothes on before going outside
             if (command.Noun == "north" && CurrentLocation.Name == "bedroom" && !HasUsedClothes)
             {
-                TextAnimator.AnimateText("You can't go outside without clothes on!\nPossible directions: " + GetFormattedDirections());
+                TextAnimator.AnimateText("You walk outside without your clothes on... Your neighbors look at you in disgust as you go back inside.\nPossible directions: " + GetFormattedDirections());
                 return;
             }
             
             // Check if the player has their wallet before leaving the bedroom
             if (command.Noun == "north" && CurrentLocation.Name == "bedroom" && !HasWallet)
             {
-                TextAnimator.AnimateText("You should take your wallet before leaving. You might need it later\nPossible directions: " + GetFormattedDirections());
+                TextAnimator.AnimateText("You should take your wallet before leaving. You might need it later.\nPossible directions: " + GetFormattedDirections());
                 return;
             }
             
@@ -125,7 +125,7 @@ public static class Player
         }
         else
         {
-            TextAnimator.AnimateText("You can't go that way\nPossible directions: " + GetFormattedDirections());
+            TextAnimator.AnimateText("You can't go that way.\nPossible directions: " + GetFormattedDirections());
         }
     }
 
@@ -152,7 +152,7 @@ public static class Player
             HasWallet = true;
             CurrentLocation.RemoveItem(item);
             Inventory.Add(item);
-            TextAnimator.AnimateText("You've recieved 1x " + command.Noun + ". It's empty, this makes you depressed.");
+            TextAnimator.AnimateText($"You've recieved 1x {command.Noun}. Your broke ${Money}.");
         }
         else if (!item.IsTakeable)
         {
@@ -274,7 +274,7 @@ public static class Player
                 TextAnimator.AnimateText("Incoming call... Jon");
                 TextAnimator.AnimateText("You answer the call.");
                 TextAnimator.AnimateText("Jon: Hey, how's it going?");
-                TextAnimator.AnimateText("Jon: I heard you been sad lately. You can't get any job with your Game Dev degree LOLLL. Put your clothes on and meet me outside, I need to talk to you!");
+                TextAnimator.AnimateText("Jon: I heard you been sad lately. You can't get any job with your Game Dev degree... LOL! Put your clothes on and meet me outside, I need to talk to you!");
                 TextAnimator.AnimateText("You hang up the phone.");
                 TextAnimator.AnimateText("★★Tip★★: You can skip dialogue by clicking 'Enter' while in dialogue.");
                 HasUsedPhone = true;
@@ -301,7 +301,7 @@ public static class Player
                 TextAnimator.AnimateText("3x unread messages from Creepy Uncle Lester.");
                 TextAnimator.AnimateText("Message: 'Good job with Joe. Maybe you're not such a nerd after all.'");
                 TextAnimator.AnimateText("Message: 'You have another programmer to help. It's my good friend Ricky, he brought his trailer over from Canada and parked it somewhere in the neighborhood'");
-                TextAnimator.AnimateText("Message: 'He's waiting for his delivery. Don't keep him waiting, he gets cranky without his fix.'");
+                TextAnimator.AnimateText("Message: 'He's waiting for his delivery. Don't keep him waiting, he gets cranky when he can't smoke.'");
                 HasUsedPhoneAfterRicky = true;
             }
             else if (HasReceivedRickyCall)
@@ -317,8 +317,8 @@ public static class Player
         {
             if (!HasUsedClothes)
             {
-                TextAnimator.AnimateText("You put on your clothes. You're now ready to go outside without being arrested for indecent exposure!");
-                TextAnimator.AnimateText("-1x Clothes.");
+                TextAnimator.AnimateText("You put on your clothes. You're now ready to go outside without being arrested for indecent exposure.");
+                TextAnimator.AnimateText($"Removed 1x {command.Noun} from inventory.");
                 HasUsedClothes = true;
                 Inventory.Remove(item); // Remove the item from inventory after use
             }
@@ -384,9 +384,9 @@ public static class Player
                 TextAnimator.AnimateText("Creepy Uncle Lester: So, you're the one Jon sent. Welcome to the business, kid.");
                 TextAnimator.AnimateText("Creepy Uncle Lester reaches into his jacket and pulls out a small package.");
                 TextAnimator.AnimateText("Creepy Uncle Lester: Here's 5 grams of my finest OG Kush. Deliver it to the programmers at their house.");
+                TextAnimator.AnimateText("You've recieved 5x OG Kush.");
                 TextAnimator.AnimateText("Creepy Uncle Lester: Don't mess this up, those programmers depend on it for their sanity.");
                 TextAnimator.AnimateText("Creepy Uncle Lester: They can't finish their game without their weed, and it all falls on you.");
-                TextAnimator.AnimateText("You've recieved 5x OG Kush.");
                 TextAnimator.AnimateText("You feel your phone vibrate in your pocket.");
 
                 
@@ -416,7 +416,7 @@ public static class Player
                 TextAnimator.AnimateText("Joe: Hey, you must be the new delivery kid. Sick!");
                 TextAnimator.AnimateText("Joe: So, you got the stuff? I've been waiting all day. Can't code without my OG Kush, you know?");
                 TextAnimator.AnimateText("You hand over one bag of OG Kush to Joe.");
-                TextAnimator.AnimateText("-1x OG Kush.");
+                TextAnimator.AnimateText($"Removed 1x {command.Noun} from inventory.");
                 
                 // Remove one OG Kush from inventory
                 bool removed = false;
@@ -458,14 +458,14 @@ public static class Player
                 TextAnimator.AnimateText("You knock on the trailer door... a scruffy, jittery man with greasy hair, a patchy mustache, and bloodshot eyes answers.");
                 TextAnimator.AnimateText("Ricky: FUCK! What took you so goddamn long? I been waitin here like a dick in a hand, all fuckin day. You better have the good shit, not that Swayze train shit.");
                 TextAnimator.AnimateText("You hand over one bag of OG Kush to Ricky.");
-                TextAnimator.AnimateText("-1x OG Kush.");
+                TextAnimator.AnimateText($"Removed 1x {command.Noun} from inventory.");
                 TextAnimator.AnimateText("*Ricky sniffs bag intensely*");
-                TextAnimator.AnimateText("Ricky: ... Yeah, that's the stuff. Smells like freedom and uh kitties, I guess. Here's your money, don't spend it all on, like, books or some shit.");
+                TextAnimator.AnimateText("Ricky: ... Yeah, that's the stuff. Smells like freedom and uh kitties, I guess. Here's your money, don't spend it all on like books or some shit.");
                 TextAnimator.AnimateText("You've received $50.");
                 Money += 50;
-                TextAnimator.AnimateText("Ricky: Sorry bout that, bud. I get a little, what's the word...fuckin' PISSED when I'm low on dope. Just moved here from Sunnyvale, a little trailer park in Canada");
-                TextAnimator.AnimateText("Ricky: I haven't been able to find any decent fucking dope anywheres... but I think, maybe...this is alright.");
-                TextAnimator.AnimateText("Ricky: Anyways, I gotta get back to work and shit. This coding's not gonna do itself, and it's harder than gettin my Grade 10.");
+                TextAnimator.AnimateText("Ricky: Sorry bout that, bud. I get a little, what's the word...fuckin PISSED when I'm low on dope. Just moved here from Sunnyvale, a little trailer park in Canada");
+                TextAnimator.AnimateText("Ricky: I haven't been able to find any decent fucking dope anywheres. but I think, maybe...this is will do.");
+                TextAnimator.AnimateText("Ricky: Anyways, I gotta get back to work and shit. I'll definitely be texting you again for more of this.");
                 
                 // Remove one OG Kush from inventory
                 bool removed = false;

@@ -1,0 +1,7 @@
+// Removed 1x joe from inventory.
+//Removed 1x ricky from inventory.
+
+// add in negotiation system
+
+// ..this is will do.
+    //fix spacing

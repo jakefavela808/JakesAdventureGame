@@ -29,11 +29,11 @@ public static class Map
         nameToLocation.Add("park bench", parkBench);
         
         Location neighborhood = new Location("neighborhood",
-            "You walk through a quiet suburban neighborhood. The houses are neatly arranged and are very well-maintained. You can see a house to the south that looks like it might belong to Joe.");
+            "You walk through a quiet suburban neighborhood. The houses are neatly arranged and are very well-maintained. You can see a house down south that looks like it might belong to Joe.");
         nameToLocation.Add("neighborhood", neighborhood);
 
         Location neighborhoodPath = new Location("neighborhood path",
-            "You continue walking through the neighborhood. You see a trailer to the north that looks like it might belong to Ricky.");
+            "You continue walking through the neighborhood. You see a trailer up north that looks like it might belong to Ricky.");
         nameToLocation.Add("neighborhood path", neighborhoodPath);
         
         Location joesHouse = new Location("joes house",
@@ -41,7 +41,7 @@ public static class Map
         nameToLocation.Add("joes house", joesHouse);
 
         Location rickyHouse = new Location("rickys house",
-            "You arrive at a broken-down, rusty trailer on the side of the road. You can hear a man yelling coming from inside.\n★★Tip★★: You can talk to Ricky by typing 'story ricky'.");
+            "You arrive at a broken-down, rusty trailer on the side of the road. You can hear a man yelling from inside.\n★★Tip★★: You can talk to Ricky by typing 'story ricky'.");
         nameToLocation.Add("rickys house", rickyHouse);
         
         bedroom.AddConnection("north", outside);
