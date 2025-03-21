@@ -276,6 +276,7 @@ public static class Player
                 TextAnimator.AnimateText("Jon: Hey, how's it going?");
                 TextAnimator.AnimateText("Jon: I heard you been sad lately. You can't get any job with your Game Dev degree LOLLL. Put your clothes on and meet me outside, I need to talk to you!");
                 TextAnimator.AnimateText("You hang up the phone.");
+                TextAnimator.AnimateText("★★Tip★★: You can skip dialogue by clicking 'Enter' while in dialogue.");
                 HasUsedPhone = true;
             }
             else if (CurrentLocation.Name == "park" && !HasUsedPhoneAtPark)
@@ -290,16 +291,16 @@ public static class Player
             }
             else if (HasReceivedOGKush && !HasUsedPhoneAfterLester && !HasSoldToJoe)
             {
-                TextAnimator.AnimateText("You check your phone and see a text message from Creepy Uncle Lester.");
+                TextAnimator.AnimateText("2x unread messages from Creepy Uncle Lester.");
                 TextAnimator.AnimateText("Message: 'The first programmer's name is Joe. He's a pretty average dude, so don't be nervous. Go west from outside, then south to reach his house.'");
                 TextAnimator.AnimateText("Message: 'Don't mess this up fuck-head. The future of the industry depends on it.'");
                 HasUsedPhoneAfterLester = true;
             }
             else if (HasSoldToJoe && HasReceivedRickyCall && !HasUsedPhoneAfterRicky)
             {
-                TextAnimator.AnimateText("You check your phone and see a text message from Creepy Uncle Lester.");
+                TextAnimator.AnimateText("3x unread messages from Creepy Uncle Lester.");
                 TextAnimator.AnimateText("Message: 'Good job with Joe. Maybe you're not such a nerd after all.'");
-                TextAnimator.AnimateText("Message: 'You have another programmer to help. It's my good friend Ricky, he brang his trailer over from Canada and parked it somewhere in the neighborhood'");
+                TextAnimator.AnimateText("Message: 'You have another programmer to help. It's my good friend Ricky, he brought his trailer over from Canada and parked it somewhere in the neighborhood'");
                 TextAnimator.AnimateText("Message: 'He's waiting for his delivery. Don't keep him waiting, he gets cranky without his fix.'");
                 HasUsedPhoneAfterRicky = true;
             }
@@ -371,7 +372,8 @@ public static class Player
             }
             else
             {
-                TextAnimator.AnimateText("Hey fuck-head, you've already spoken to Jon. He's busy on with Sandie now. Fuck off.");
+                TextAnimator.AnimateText("You find Jon again in the alley-way.");
+                TextAnimator.AnimateText("Hey fuck-head, can't you see I'm busy with Sandie now? Fuck off and go do delivries or some shit.");
                 return;
             }
         }
@@ -441,7 +443,7 @@ public static class Player
             }
             else if (CurrentLocation.Name == "joes house" && HasSoldToJoe)
             {
-                TextAnimator.AnimateText("Joe is busy coding and doesn't want to be disturbed.");
+                TextAnimator.AnimateText("You knock on Joe's door again.");
                 TextAnimator.AnimateText("Joe: Thanks for the delivery, but you're being creepy now. Fuck off and come back another time when I need a fix.");
             }
             else
@@ -454,16 +456,16 @@ public static class Player
             if (CurrentLocation.Name == "rickys house" && HasSoldToJoe && !HasSoldToRicky)
             {
                 TextAnimator.AnimateText("You knock on the trailer door... a scruffy, jittery man with greasy hair, a patchy mustache, and bloodshot eyes answers.");
-                TextAnimator.AnimateText("Ricky: FUCK! What took you so goddamn long? I been waitin' here like a dick in a hand, all fuckin' day. You better have the good shit, not that Swayze train shit.");
+                TextAnimator.AnimateText("Ricky: FUCK! What took you so goddamn long? I been waitin here like a dick in a hand, all fuckin day. You better have the good shit, not that Swayze train shit.");
                 TextAnimator.AnimateText("You hand over one bag of OG Kush to Ricky.");
                 TextAnimator.AnimateText("-1x OG Kush.");
-                TextAnimator.AnimateText("*sniffs bag intensely*");
-                TextAnimator.AnimateText("Ricky: ... Yeah, that's the stuff. Smells like... freedom and uh... kitties, I guess. Here's your money, don't spend it all on, like, books or some shit.");
+                TextAnimator.AnimateText("*Ricky sniffs bag intensely*");
+                TextAnimator.AnimateText("Ricky: ... Yeah, that's the stuff. Smells like freedom and uh kitties, I guess. Here's your money, don't spend it all on, like, books or some shit.");
                 TextAnimator.AnimateText("You've received $50.");
                 Money += 50;
                 TextAnimator.AnimateText("Ricky: Sorry bout that, bud. I get a little, what's the word...fuckin' PISSED when I'm low on dope. Just moved here from Sunnyvale, a little trailer park in Canada");
                 TextAnimator.AnimateText("Ricky: I haven't been able to find any decent fucking dope anywheres... but I think, maybe...this is alright.");
-                TextAnimator.AnimateText("Ricky: Anyways, I gotta get back to, uh... work and shit. This coding's not gonna do itself, and it's harder than gettin my Grade 10. Later!");
+                TextAnimator.AnimateText("Ricky: Anyways, I gotta get back to work and shit. This coding's not gonna do itself, and it's harder than gettin my Grade 10.");
                 
                 // Remove one OG Kush from inventory
                 bool removed = false;
@@ -480,7 +482,7 @@ public static class Player
             }
             else if (CurrentLocation.Name == "rickys house" && HasSoldToRicky)
             {
-                TextAnimator.AnimateText("You knock on the trailer door again.");
+                TextAnimator.AnimateText("You knock on Ricky's trailer door again.");
                 TextAnimator.AnimateText("Ricky: What the fuck do you want now? I already got my shit. Fuck off!");
                 TextAnimator.AnimateText("The door slams in your face.");
             }
